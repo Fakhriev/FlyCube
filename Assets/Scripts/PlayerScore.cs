@@ -6,6 +6,7 @@ using TMPro;
 public class PlayerScore : MonoBehaviour
 {
     [SerializeField] private PlayerMobileControll playerMovement;
+    [SerializeField] private Dash dash;
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private TextMeshProUGUI tmpHighscore;
     
@@ -57,6 +58,7 @@ public class PlayerScore : MonoBehaviour
     private void TakeCandy()
     {
         score += 100;
+        //dash.StartDash();
     }
     
     private void GameStart()

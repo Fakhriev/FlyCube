@@ -17,6 +17,7 @@ public class PlayerDamage : MonoBehaviour
     [SerializeField] private Button nextLvlButton;
 
     private int health = 3;
+    private bool isInvincible;
 
     private void Start()
     {
@@ -26,8 +27,10 @@ public class PlayerDamage : MonoBehaviour
 
     private void OnBlockHit()
     {
-        health--;
+        if (isInvincible)
+            return;
 
+        health--;
         if (health == 0)
         {
             PlayerLoose();
@@ -61,5 +64,10 @@ public class PlayerDamage : MonoBehaviour
         playerCamera.PlayerLoose();
         playerScore.PlayerLoose();
         nextLvlButton.gameObject.SetActive(true);
+    }
+
+    public void ChangeInvincible(bool value)
+    {
+        isInvincible = value;
     }
 }
