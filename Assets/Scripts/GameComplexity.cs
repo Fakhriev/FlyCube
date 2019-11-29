@@ -17,7 +17,7 @@ public class GameComplexity : MonoBehaviour
             return;
 
         playerScore = System.Convert.ToInt32(scoreTMP.text);
-        if (playerScore < 1000 * complexityLevel)
+        if (playerScore < 2500 * complexityLevel)
             return;
         
         ComplexityLevelIncrease();

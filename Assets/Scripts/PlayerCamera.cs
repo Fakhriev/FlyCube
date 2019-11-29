@@ -5,9 +5,7 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
-    [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerMobileControll playerMobileMovement;
-    [SerializeField] private bool mobileDevice;
 
     private Vector3 offset;
     private bool gameEnd;
@@ -31,12 +29,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void CameraView()
     {
-        if (!mobileDevice)
-            _camera.fieldOfView = 50 + playerMovement.speed * 6.5f;
-
-        if (mobileDevice)
-            _camera.fieldOfView = 50 + playerMobileMovement.speed * 6.5f;
-        //_camera.fieldOfView = 50 + playerMovement.speed * 7.33f;
+        _camera.fieldOfView = 50 + playerMobileMovement.speed * 6.5f;
     }
 
     private void CameraViewLoose()

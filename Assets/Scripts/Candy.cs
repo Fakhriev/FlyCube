@@ -6,12 +6,14 @@ public class Candy : MonoBehaviour
 {
     [SerializeField] private Material[] materialPack = new Material[0];
     [SerializeField] private MeshRenderer meshRenderer;
+    [SerializeField] private Rigidbody torusRb;
 
     [SerializeField] private Transform player;
     [SerializeField] private GameObject cube;
 
     [SerializeField] private float delta;
-    
+    [SerializeField] private float spawnRange;
+
     private void Start()
     {
         BlockStart();
@@ -26,7 +28,8 @@ public class Candy : MonoBehaviour
     private void BlockStart()
     {
         cube.SetActive(false);
-        transform.position = new Vector3(Random.Range(player.position.x - delta, player.position.x + delta), Random.Range(player.position.y - delta, player.position.y + delta), player.position.z + Random.Range(10, 25));
+        transform.position = new Vector3(Random.Range(player.position.x - delta, player.position.x + delta), Random.Range(player.position.y - delta, player.position.y + delta), player.position.z + spawnRange);
+
         meshRenderer.material = materialPack[Random.Range(0, 3)];
         cube.SetActive(true);
     }
@@ -36,5 +39,4 @@ public class Candy : MonoBehaviour
         if (collision.gameObject.tag == "Player")
             BlockStart();
     }
-
 }

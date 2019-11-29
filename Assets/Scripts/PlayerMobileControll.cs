@@ -6,11 +6,13 @@ using UnityEngine.EventSystems;
 public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Rigidbody player;
+    [SerializeField] private Dash dash;
 
     [SerializeField] private float acceleration;
     [SerializeField] private float speedMax;
 
     [SerializeField] private float speedSide;
+    [SerializeField] private float speedDash;
     private float maxSpeedSide;
 
     private Vector3 moveVector;
@@ -32,8 +34,11 @@ public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandl
         if (fingerDown && speed <= speedMax)
             Acceleration(1);
 
-        if (!fingerDown && speed > 0)
+        if ((!fingerDown && speed > 0) || speed > speedMax)
             Acceleration(-1);
+
+        if (dash.allreadyDash)
+            speed = speedDash;
 
         if (speed < 0)
             speed = 0;
@@ -51,7 +56,6 @@ public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandl
     {
         if (gameEnd)
             return;
-        
 
         if (value > 0)
             speed += (acceleration * Time.deltaTime);
@@ -66,8 +70,13 @@ public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandl
             moveVector = Vector3.zero;
 
         moveVector.z = speed;
-
         player.MovePosition(player.transform.position + moveVector * Time.fixedDeltaTime);
+    }
+
+    IEnumerator PlayerStop()
+    {
+        yield return new WaitForSeconds(3);
+        player.velocity = Vector3.zero;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -108,6 +117,7 @@ public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandl
     public void OnPointerUp(PointerEventData eventData)
     {
         fingerDown = false;
+        StartCoroutine(PlayerStop());
     }
 
     public void OnBeginDrag(PointerEventData eventData)
