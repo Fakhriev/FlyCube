@@ -19,6 +19,7 @@ public class LevelCounter : MonoBehaviour
     [SerializeField] private float multiplyDistance;
 
     private float currentLevel;
+    private float complexityLevel;
 
     private float finishDistance;
     private float leftDistance;
@@ -59,7 +60,11 @@ public class LevelCounter : MonoBehaviour
         if (!PlayerPrefs.HasKey("CurrentLevel"))
             PlayerPrefs.SetFloat("CurrentLevel", 1);
 
+        if (!PlayerPrefs.HasKey("Complexity"))
+            PlayerPrefs.SetFloat("Complexity", 1);
+
         currentLevel = PlayerPrefs.GetFloat("CurrentLevel");
+        complexityLevel = PlayerPrefs.GetFloat("Complexity");
 
         currentLevelNum.text = currentLevel.ToString();
         nextLevelNum.text = (currentLevel + 1).ToString();
@@ -74,29 +79,26 @@ public class LevelCounter : MonoBehaviour
 
     private float GetDistance()
     {
-        return minimalDistance + multiplyDistance * currentLevel;
+        return minimalDistance + multiplyDistance * complexityLevel;
     }
 
     private void LevelComplete()
     {
+        int index = PlayerPrefs.GetInt("index");
+
+        if (index < 4)
+            index++;
+        else
+            index = 0;
+        
+        if (complexityLevel == 10)
+            complexityLevel = 0;
+
         PlayerPrefs.SetFloat("CurrentLevel", currentLevel + 1);
+        PlayerPrefs.SetFloat("Complexity", complexityLevel + 1);
+        PlayerPrefs.SetInt("index", index);
+
         gameEnd = true;
         playerDamage.PlayerWin();
-    }
-
-    private void BlocksActive()
-    {
-        
-        /*
-        private int newBlocksLevel = 1;
-
-        if (newBlocksLevel != 2 && score > 1000 * newBlocksLevel)
-        BlocksActive();
-
-        if (newBlocks[newBlocksLevel - 1] != null)
-            newBlocks[newBlocksLevel - 1].SetActive(true);
-
-        newBlocksLevel++; 
-        */
     }
 }
