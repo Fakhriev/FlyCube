@@ -6,13 +6,11 @@ using UnityEngine.EventSystems;
 public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Rigidbody player;
-    [SerializeField] private Dash dash;
 
     [SerializeField] private float acceleration;
     [SerializeField] private float speedMax;
-
     [SerializeField] private float speedSide;
-    [SerializeField] private float speedDash;
+
     private float maxSpeedSide;
 
     private Vector3 moveVector;
@@ -36,9 +34,6 @@ public class PlayerMobileControll : MonoBehaviour, IDragHandler, IBeginDragHandl
 
         if ((!fingerDown && speed > 0) || speed > speedMax)
             Acceleration(-1);
-
-        if (dash.allreadyDash)
-            speed = speedDash;
 
         if (speed < 0)
             speed = 0;

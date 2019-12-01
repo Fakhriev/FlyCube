@@ -8,28 +8,25 @@ public class PlayerDamage : MonoBehaviour
 {
     [SerializeField] private PlayerMobileControll playerMovement;
     [SerializeField] private PlayerCamera playerCamera;
-    [SerializeField] private PlayerScore playerScore;
 
-    [SerializeField] private Material[] materialPack = new Material[0];
+    [SerializeField] private PlayerScore playerScore;
+    [SerializeField] private ColorManager colorManager;
     [SerializeField] private MeshRenderer meshRenderer;
 
     [SerializeField] private Button replayButton;
     [SerializeField] private Button nextLvlButton;
 
     private int health = 3;
-    private bool isInvincible;
 
     private void Start()
     {
+        meshRenderer.material = colorManager.GetTheColor(1);
         replayButton.onClick.AddListener(Replay);
         nextLvlButton.onClick.AddListener(Replay);
     }
 
     private void OnBlockHit()
     {
-        if (isInvincible)
-            return;
-
         health--;
         if (health == 0)
         {
@@ -39,7 +36,7 @@ public class PlayerDamage : MonoBehaviour
 
     private void PlayerLoose()
     {
-        meshRenderer.material = materialPack[Random.Range(0, 2)];
+        meshRenderer.material = colorManager.GetTheColor(2);
         playerMovement.PlayerLoose();
         playerCamera.PlayerLoose();
         playerScore.PlayerLoose();
@@ -64,10 +61,5 @@ public class PlayerDamage : MonoBehaviour
         playerCamera.PlayerLoose();
         playerScore.PlayerLoose();
         nextLvlButton.gameObject.SetActive(true);
-    }
-
-    public void ChangeInvincible(bool value)
-    {
-        isInvincible = value;
     }
 }

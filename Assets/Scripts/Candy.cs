@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Candy : MonoBehaviour
 {
-    [SerializeField] private Material[] materialPack = new Material[0];
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private Rigidbody torusRb;
+    [SerializeField] private ColorManager colorManager;
 
     [SerializeField] private Transform player;
     [SerializeField] private GameObject cube;
@@ -30,7 +29,7 @@ public class Candy : MonoBehaviour
         cube.SetActive(false);
         transform.position = new Vector3(Random.Range(player.position.x - delta, player.position.x + delta), Random.Range(player.position.y - delta, player.position.y + delta), player.position.z + spawnRange);
 
-        meshRenderer.material = materialPack[Random.Range(0, 3)];
+        meshRenderer.material = colorManager.GetTheColor(3);
         cube.SetActive(true);
     }
 
